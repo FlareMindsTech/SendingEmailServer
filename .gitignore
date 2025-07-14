@@ -1,0 +1,33 @@
+# 📦 Node modules
+node_modules/
+
+# 🛠️ Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 🔑 Environment variables
+.env
+
+# 📂 File uploads or attachments (like PDFs)
+uploads/
+attachments/
+
+# 🗑 System files
+.DS_Store
+Thumbs.db
+
+# ⚙️ OS-specific
+.idea/
+.vscode/
+
+# 🐳 Docker
+*.local
+docker-compose.override.yml
+
+# 💥 Build output
+dist/
+build/
+
