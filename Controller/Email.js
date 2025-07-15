@@ -77,9 +77,8 @@ export const getEmailsByStatus = async (req, res) => {
 
     const allowedStatuses = ['sent', 'scheduled'];
     let filter = {};
-    let sort = { createdAt: -1 }; // Default sort
+    let sort = { createdAt: -1 };
 
-    // Apply filter only if status is valid
     if (status) {
       if (!allowedStatuses.includes(status)) {
         return res.status(400).json({ message: 'Invalid status. Use "sent" or "scheduled".' });
@@ -91,6 +90,23 @@ export const getEmailsByStatus = async (req, res) => {
 
     const emails = await Email.find(filter).sort(sort);
     res.status(200).json(emails);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// DELETE a specific email by ID
+export const deleteEmail = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleted = await Email.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: 'Email not found' });
+    }
+
+    res.status(200).json({ message: 'Email deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
