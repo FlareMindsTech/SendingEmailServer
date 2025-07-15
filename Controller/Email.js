@@ -75,14 +75,19 @@ export const getEmailsByStatus = async (req, res) => {
   try {
     const { status } = req.query;
 
-    // Validate status input
     const allowedStatuses = ['sent', 'scheduled'];
-    if (!allowedStatuses.includes(status)) {
-      return res.status(400).json({ message: 'Invalid status. Use "sent" or "scheduled".' });
-    }
+    let filter = {};
+    let sort = { createdAt: -1 }; // Default sort
 
-    const filter = { status };
-    const sort = status === 'sent' ? { sentAt: -1 } : { scheduledAt: 1 };
+    // Apply filter only if status is valid
+    if (status) {
+      if (!allowedStatuses.includes(status)) {
+        return res.status(400).json({ message: 'Invalid status. Use "sent" or "scheduled".' });
+      }
+
+      filter = { status };
+      sort = status === 'sent' ? { sentAt: -1 } : { scheduledAt: 1 };
+    }
 
     const emails = await Email.find(filter).sort(sort);
     res.status(200).json(emails);
