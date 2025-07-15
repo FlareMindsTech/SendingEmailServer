@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import {
+  deleteEmail,
     getEmailsByStatus,
   scheduleEmail,
  
@@ -18,6 +19,7 @@ const upload = multer({ storage });
 router.post('/schedule-email', upload.single('file'), scheduleEmail);
 
 router.get('/emails', getEmailsByStatus);
+router.delete('/emails/:id', deleteEmail);
 
 
 export default router;
